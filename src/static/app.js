@@ -83,4 +83,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize app
   fetchActivities();
+
+  // ── Conversion Calculator ────────────────────────────────────────────────────
+
+  // Tab switching
+  document.querySelectorAll(".calc-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".calc-tab").forEach((t) => t.classList.remove("active"));
+      document.querySelectorAll(".calc-panel").forEach((p) => p.classList.remove("active"));
+      tab.classList.add("active");
+      document.getElementById(`tab-${tab.dataset.tab}`).classList.add("active");
+    });
+  });
+
+  // Generic convert helper
+  async function doConvert(endpoint, value, fromUnit, toUnit, resultDiv) {
+    if (value.trim() === "" || isNaN(Number(value))) {
+      resultDiv.textContent = "Please enter a valid number.";
+      resultDiv.className = "calc-result error";
+      resultDiv.classList.remove("hidden");
+      return;
+    }
+    try {
+      const url = `/${endpoint}?value=${encodeURIComponent(value)}&from_unit=${encodeURIComponent(fromUnit)}&to_unit=${encodeURIComponent(toUnit)}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      if (response.ok) {
+        resultDiv.textContent = `${data.input_value} ${data.from_unit} = ${data.result} ${data.to_unit}`;
+        resultDiv.className = "calc-result success";
+      } else {
+        resultDiv.textContent = data.detail || "Conversion failed.";
+        resultDiv.className = "calc-result error";
+      }
+    } catch {
+      resultDiv.textContent = "Error connecting to server.";
+      resultDiv.className = "calc-result error";
+    }
+    resultDiv.classList.remove("hidden");
+  }
+
+  // Temperature
+  document.getElementById("temp-convert-btn").addEventListener("click", () => {
+    doConvert(
+      "convert/temperature",
+      document.getElementById("temp-value").value,
+      document.getElementById("temp-from").value,
+      document.getElementById("temp-to").value,
+      document.getElementById("temp-result")
+    );
+  });
+
+  // Distance
+  document.getElementById("dist-convert-btn").addEventListener("click", () => {
+    doConvert(
+      "convert/distance",
+      document.getElementById("dist-value").value,
+      document.getElementById("dist-from").value,
+      document.getElementById("dist-to").value,
+      document.getElementById("dist-result")
+    );
+  });
+
+  // Weight
+  document.getElementById("weight-convert-btn").addEventListener("click", () => {
+    doConvert(
+      "convert/weight",
+      document.getElementById("weight-value").value,
+      document.getElementById("weight-from").value,
+      document.getElementById("weight-to").value,
+      document.getElementById("weight-result")
+    );
+  });
 });

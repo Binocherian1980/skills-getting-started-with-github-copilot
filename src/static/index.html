@@ -39,6 +39,106 @@
         </form>
         <div id="message" class="hidden"></div>
       </section>
+
+      <!-- ── Conversion Calculator ─────────────────────────────── -->
+      <section id="calculator-container">
+        <h3>🔢 Unit Converter</h3>
+
+        <!-- Category tabs -->
+        <div class="calc-tabs">
+          <button class="calc-tab active" data-tab="temperature">🌡 Temperature</button>
+          <button class="calc-tab" data-tab="distance">📏 Distance</button>
+          <button class="calc-tab" data-tab="weight">⚖ Weight</button>
+        </div>
+
+        <!-- Temperature -->
+        <div class="calc-panel active" id="tab-temperature">
+          <div class="form-group">
+            <label for="temp-value">Value:</label>
+            <input type="number" id="temp-value" placeholder="Enter value" step="any" />
+          </div>
+          <div class="calc-row">
+            <div class="form-group">
+              <label for="temp-from">From:</label>
+              <select id="temp-from">
+                <option value="C">Celsius (°C)</option>
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="K">Kelvin (K)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="temp-to">To:</label>
+              <select id="temp-to">
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="C">Celsius (°C)</option>
+                <option value="K">Kelvin (K)</option>
+              </select>
+            </div>
+          </div>
+          <button id="temp-convert-btn">Convert</button>
+          <div id="temp-result" class="calc-result hidden"></div>
+        </div>
+
+        <!-- Distance -->
+        <div class="calc-panel" id="tab-distance">
+          <div class="form-group">
+            <label for="dist-value">Value:</label>
+            <input type="number" id="dist-value" placeholder="Enter value" step="any" />
+          </div>
+          <div class="calc-row">
+            <div class="form-group">
+              <label for="dist-from">From:</label>
+              <select id="dist-from">
+                <option value="mi">Miles (mi)</option>
+                <option value="km">Kilometers (km)</option>
+                <option value="m">Meters (m)</option>
+                <option value="ft">Feet (ft)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="dist-to">To:</label>
+              <select id="dist-to">
+                <option value="km">Kilometers (km)</option>
+                <option value="mi">Miles (mi)</option>
+                <option value="m">Meters (m)</option>
+                <option value="ft">Feet (ft)</option>
+              </select>
+            </div>
+          </div>
+          <button id="dist-convert-btn">Convert</button>
+          <div id="dist-result" class="calc-result hidden"></div>
+        </div>
+
+        <!-- Weight -->
+        <div class="calc-panel" id="tab-weight">
+          <div class="form-group">
+            <label for="weight-value">Value:</label>
+            <input type="number" id="weight-value" placeholder="Enter value" step="any" />
+          </div>
+          <div class="calc-row">
+            <div class="form-group">
+              <label for="weight-from">From:</label>
+              <select id="weight-from">
+                <option value="kg">Kilograms (kg)</option>
+                <option value="lb">Pounds (lb)</option>
+                <option value="g">Grams (g)</option>
+                <option value="oz">Ounces (oz)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="weight-to">To:</label>
+              <select id="weight-to">
+                <option value="lb">Pounds (lb)</option>
+                <option value="kg">Kilograms (kg)</option>
+                <option value="g">Grams (g)</option>
+                <option value="oz">Ounces (oz)</option>
+              </select>
+            </div>
+          </div>
+          <button id="weight-convert-btn">Convert</button>
+          <div id="weight-result" class="calc-result hidden"></div>
+        </div>
+      </section>
     </main>
 
     <footer>

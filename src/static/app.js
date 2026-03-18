@@ -83,4 +83,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize app
   fetchActivities();
+
+  // --- Currency Converter ---
+  const currencyForm = document.getElementById("currency-form");
+  const conversionResult = document.getElementById("conversion-result");
+  const fromCurrencySelect = document.getElementById("from-currency");
+  const toCurrencySelect = document.getElementById("to-currency");
+
+  async function loadSupportedCurrencies() {
+    try {
+      const response = await fetch("/currency/supported");
+      const data = await response.json();
+      data.currencies.forEach((code) => {
+        [fromCurrencySelect, toCurrencySelect].forEach((sel) => {
+          const option = document.createElement("option");
+          option.value = code;
+          option.textContent = code;
+          sel.appendChild(option);
+        });
+      });
+      // Sensible defaults
+      fromCurrencySelect.value = "USD";
+      toCurrencySelect.value = "EUR";
+    } catch (error) {
+      console.error("Error loading currencies:", error);
+    }
+  }
+
+  currencyForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const amount = document.getElementById("amount").value;
+    const fromCurrency = fromCurrencySelect.value;
+    const toCurrency = toCurrencySelect.value;
+
+    try {
+      const response = await fetch(
+        `/currency/convert?amount=${encodeURIComponent(amount)}&from_currency=${encodeURIComponent(fromCurrency)}&to_currency=${encodeURIComponent(toCurrency)}`
+      );
+      const result = await response.json();
+
+      if (response.ok) {
+        conversionResult.innerHTML = `
+          <strong>${result.original_amount} ${result.from_currency}</strong>
+          &nbsp;=&nbsp;
+          <strong>${result.converted_amount} ${result.to_currency}</strong>
+          <br/>
+          <small>Exchange rate: 1 ${result.from_currency} = ${result.exchange_rate} ${result.to_currency}</small>
+        `;
+        conversionResult.className = "success";
+      } else {
+        conversionResult.textContent = result.detail || "Conversion failed";
+        conversionResult.className = "error";
+      }
+      conversionResult.classList.remove("hidden");
+    } catch (error) {
+      conversionResult.textContent = "Failed to convert. Please try again.";
+      conversionResult.className = "error";
+      conversionResult.classList.remove("hidden");
+      console.error("Error converting currency:", error);
+    }
+  });
+
+  loadSupportedCurrencies();
 });

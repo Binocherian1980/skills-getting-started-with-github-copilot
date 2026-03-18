@@ -39,6 +39,30 @@
         </form>
         <div id="message" class="hidden"></div>
       </section>
+
+      <section id="currency-container">
+        <h3>Currency Converter</h3>
+        <form id="currency-form">
+          <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" required min="0.01" step="any" placeholder="Enter amount" />
+          </div>
+          <div class="form-group">
+            <label for="from-currency">From Currency:</label>
+            <select id="from-currency" required>
+              <option value="">-- Select currency --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="to-currency">To Currency:</label>
+            <select id="to-currency" required>
+              <option value="">-- Select currency --</option>
+            </select>
+          </div>
+          <button type="submit">Convert</button>
+        </form>
+        <div id="conversion-result" class="hidden"></div>
+      </section>
     </main>
 
     <footer>
